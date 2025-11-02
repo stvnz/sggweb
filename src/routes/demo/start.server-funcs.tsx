@@ -17,7 +17,10 @@ const loggedServerFunction = createServerFn({ method: "GET" }).middleware([
 
 const TODOS_FILE = 'todos.json'
 
-async function readTodos() {
+type Todo = { id: number; name: string }
+type TodoList = Todo[]
+
+async function readTodos(): Promise<TodoList> {
   return JSON.parse(
     await fs.promises.readFile(TODOS_FILE, 'utf-8').catch(() =>
       JSON.stringify(
@@ -29,7 +32,7 @@ async function readTodos() {
         2,
       ),
     ),
-  )
+  ) as TodoList
 }
 
 const getTodos = createServerFn({
@@ -47,12 +50,12 @@ const addTodo = createServerFn({ method: 'POST' })
 
 export const Route = createFileRoute('/demo/start/server-funcs')({
   component: Home,
-  loader: async () => await getTodos(),
+  loader: async () => (await getTodos()) as TodoList,
 })
 
 function Home() {
   const router = useRouter()
-  let todos = Route.useLoaderData()
+  let todos = Route.useLoaderData() as TodoList
 
   const [todo, setTodo] = useState('')
 
@@ -73,12 +76,12 @@ function Home() {
       <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
         <h1 className="text-2xl mb-4">Start Server Functions - Todo Example</h1>
         <ul className="mb-4 space-y-2">
-          {todos?.map((t) => (
+          {todos?.map((todoItem) => (
             <li
-              key={t.id}
+              key={todoItem.id}
               className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
             >
-              <span className="text-lg text-white">{t.name}</span>
+              <span className="text-lg text-white">{todoItem.name}</span>
             </li>
           ))}
         </ul>
