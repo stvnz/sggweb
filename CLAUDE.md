@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Stellar Gate Games Corporate Website** - A single-page landing site for Stellar Gate Games, a joint venture bringing world-class gaming experiences to the Middle East.
 
-**Current Status**: Infrastructure complete - TanStack Start initialized, Cloudflare D1/R2 configured, ready for feature implementation.
+**Current Status**: Infrastructure complete - TanStack Start initialized, Cloudflare D1/R2 configured, deployed to workers.dev, ready for feature implementation.
 
 ## Tech Stack
 
@@ -155,33 +155,41 @@ return <h1>{t('hero.tagline')}</h1>;
 ## Deployment
 
 ### Environments
-- **Production**: `sggplay.com` (main branch)
-- **Development**: `dev.sggplay.com` (dev branch)
+- **Production**: `sggplay.com` (main branch) - Not yet deployed
+- **Development**: `https://sggweb-dev.stvnz.workers.dev` (dev branch) - ✅ Live
 - **Auto-deploy**: Enabled on push to respective branches
 
 ### Wrangler Configuration
 ```toml
 # wrangler.toml structure (already configured)
 name = "sggweb"
-main = ".output/server/index.mjs"
+main = "@tanstack/react-start/server-entry"
+compatibility_date = "2025-11-02"
+compatibility_flags = ["nodejs_compat"]
 
 [env.production]
 name = "sggweb-production"
 route = "sggplay.com/*"
 # D1: sgg-db (1a91d742-44d7-44ac-b3a3-5a01042abbf9)
-# R2: sgg-assets
+# R2: sgg-assets (binding: R2_ASSETS)
 
 [env.dev]
 name = "sggweb-dev"
-route = "dev.sggplay.com/*"
+workers_dev = true  # Uses *.workers.dev subdomain
 # D1: sgg-db-dev (b67c454e-a94f-4965-b4f1-8c5296483091)
-# R2: sgg-assets-dev
+# R2: sgg-assets-dev (binding: R2_ASSETS)
 ```
 
 ### Deployment Process
-1. Test locally with `pnpm build && pnpm preview`
-2. Push to dev branch for staging
-3. Merge dev → main for production
+1. **Development**:
+   - Build: `CLOUDFLARE_ENV=dev pnpm build`
+   - Deploy: `pnpm wrangler deploy --env dev`
+   - Live: https://sggweb-dev.stvnz.workers.dev
+2. **Production**:
+   - Build: `pnpm build`
+   - Deploy: `pnpm wrangler deploy --env production`
+   - Will be live at: sggplay.com
+3. Test locally with `pnpm dev` or `pnpm preview`
 4. Monitor Cloudflare Dashboard for deployment status
 
 ## Development Guidelines

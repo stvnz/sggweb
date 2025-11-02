@@ -82,12 +82,17 @@ pnpm dev --port 3001
 ### Building for Production
 
 ```bash
-# Build production bundle
+# Build for development (with environment flag)
+CLOUDFLARE_ENV=dev pnpm build
+
+# Build for production
 pnpm build
 
 # Preview production build locally
 pnpm preview
 ```
+
+**Note**: Use `CLOUDFLARE_ENV=dev` when building for development deployment to ensure correct environment configuration.
 
 ## Project Structure
 

@@ -21,9 +21,10 @@ The website is deployed on Cloudflare Workers with static assets on Cloudflare P
 
 ### Development Environment
 
-- **URL**: dev.sggplay.com
+- **URL**: https://sggweb-dev.stvnz.workers.dev
 - **Branch**: dev
 - **Auto-deploy**: Enabled on push to dev
+- **Note**: Uses workers.dev subdomain (custom domain can be added later)
 
 ## Deployment Methods
 
@@ -47,13 +48,15 @@ git push origin main
 
 ```bash
 # Deploy to dev environment
-pnpm build
+CLOUDFLARE_ENV=dev pnpm build
 pnpm wrangler deploy --env dev
 
 # Deploy to production
 pnpm build
 pnpm wrangler deploy --env production
 ```
+
+**Note**: Use `CLOUDFLARE_ENV=dev` for dev builds to ensure correct environment configuration.
 
 ## Pre-Deployment Checklist
 
@@ -74,8 +77,9 @@ pnpm wrangler deploy --env production
 
 ```toml
 name = "sggweb"
-main = ".output/server/index.mjs"
-compatibility_date = "2024-01-01"
+main = "@tanstack/react-start/server-entry"
+compatibility_date = "2025-11-02"
+compatibility_flags = ["nodejs_compat"]
 
 # Production environment
 [env.production]
@@ -91,14 +95,14 @@ database_id = "1a91d742-44d7-44ac-b3a3-5a01042abbf9"
 
 # Production R2 bucket
 [[env.production.r2_buckets]]
-binding = "ASSETS"
+binding = "R2_ASSETS"
 bucket_name = "sgg-assets"
 
 # Development environment
 [env.dev]
 name = "sggweb-dev"
-route = "dev.sggplay.com/*"
 vars = { ENVIRONMENT = "development" }
+workers_dev = true
 
 # Development D1 database
 [[env.dev.d1_databases]]
@@ -108,7 +112,7 @@ database_id = "b67c454e-a94f-4965-b4f1-8c5296483091"
 
 # Development R2 bucket
 [[env.dev.r2_buckets]]
-binding = "ASSETS"
+binding = "R2_ASSETS"
 bucket_name = "sgg-assets-dev"
 ```
 
