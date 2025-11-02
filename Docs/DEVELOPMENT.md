@@ -39,6 +39,34 @@ pnpm wrangler login
 pnpm wrangler whoami
 ```
 
+### 4. D1 & R2 Setup (Already Configured)
+
+The project uses Cloudflare D1 (database) and R2 (storage) with two environments:
+
+**D1 Databases:**
+- Production: `sgg-db` (ID: `1a91d742-44d7-44ac-b3a3-5a01042abbf9`)
+- Development: `sgg-db-dev` (ID: `b67c454e-a94f-4965-b4f1-8c5296483091`)
+
+**R2 Buckets:**
+- Production: `sgg-assets`
+- Development: `sgg-assets-dev`
+
+**Apply Migrations:**
+```bash
+# Migrations are already applied, but to re-run:
+pnpm wrangler d1 migrations apply sgg-db --env production
+pnpm wrangler d1 migrations apply sgg-db-dev --env dev
+```
+
+**Query D1:**
+```bash
+# Query production database
+pnpm wrangler d1 execute sgg-db --env production --command "SELECT * FROM contacts"
+
+# Query dev database
+pnpm wrangler d1 execute sgg-db-dev --env dev --command "SELECT * FROM contacts"
+```
+
 ## Development Workflow
 
 ### Running Development Server
@@ -64,19 +92,18 @@ pnpm preview
 ## Project Structure
 
 ```
-app/
+src/
 ├── routes/
 │   ├── __root.tsx           # Root layout
 │   ├── index.tsx            # Homepage (redirects to /en)
 │   └── [locale]/
-│       └── index.tsx        # Localized homepage
+│       └── index.tsx        # Localized homepage (to be created)
 ├── components/
 │   ├── ui/                  # shadcn/ui components
 │   ├── sections/            # Page sections (Hero, Vision, etc.)
 │   └── shared/              # Shared components (Header, Footer)
 ├── styles/
-│   ├── globals.css          # Global styles + Tailwind
-│   └── fonts.css            # NeueHaasDisplay font-face
+│   └── styles.css           # Global styles + Tailwind
 ├── i18n/
 │   ├── en.json              # English translations
 │   ├── ar.json              # Arabic translations
@@ -84,16 +111,19 @@ app/
 ├── lib/
 │   ├── utils.ts             # Utility functions
 │   └── i18n.ts              # i18n helpers
-└── utils/
+└── data/
     └── constants.ts         # Constants (colors, links, etc.)
 
 public/
-├── fonts/                   # NeueHaasDisplay font files
-├── images/                  # Logos, icons
+├── fonts/                   # NeueHaasDisplay font files (to be added)
+├── images/                  # Logos, icons (to be added)
 └── favicon.ico
 
+migrations/
+└── 0001_create_contacts.sql # D1 database migrations
+
 wrangler.toml                # Cloudflare Workers config
-tailwind.config.ts           # Tailwind configuration
+vite.config.ts               # Vite configuration
 tsconfig.json                # TypeScript configuration
 ```
 
@@ -109,12 +139,12 @@ pnpm dlx shadcn-ui@latest add button
 pnpm dlx shadcn-ui@latest add button card dialog
 ```
 
-Components will be added to `app/components/ui/`
+Components will be added to `src/components/ui/`
 
 ### Creating Custom Components
 
 ```typescript
-// app/components/sections/Hero.tsx
+// src/components/sections/Hero.tsx
 import { motion } from 'framer-motion';
 
 export function Hero() {
@@ -135,7 +165,7 @@ export function Hero() {
 ### Translation Files
 
 ```json
-// app/i18n/en.json
+// src/i18n/en.json
 {
   "hero": {
     "tagline": "Unite, shine, and play.",
@@ -308,7 +338,7 @@ pnpm build
 
 ### Font Loading Issues
 
-Ensure NeueHaasDisplay fonts are in `public/fonts/` and properly declared in `app/styles/fonts.css`
+Ensure NeueHaasDisplay fonts are in `public/fonts/` and properly declared in `src/styles/styles.css`
 
 ## Development Tips
 

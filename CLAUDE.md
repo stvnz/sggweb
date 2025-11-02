@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Stellar Gate Games Corporate Website** - A single-page landing site for Stellar Gate Games, a joint venture bringing world-class gaming experiences to the Middle East.
 
-**Current Status**: Initial planning phase - documentation complete, code implementation not yet started.
+**Current Status**: Infrastructure complete - TanStack Start initialized, Cloudflare D1/R2 configured, ready for feature implementation.
 
 ## Tech Stack
 
@@ -53,13 +53,13 @@ pnpm wrangler deploy --env [dev|production]
 - **SSR**: Server-side rendering via Cloudflare Workers
 - **i18n**: Route-level language switching with RTL support for Arabic
 
-### Project Structure (When Implemented)
+### Project Structure
 ```
-app/
+src/
 ├── routes/              # TanStack Start routes
 │   ├── __root.tsx      # Root layout with locale handling
-│   ├── index.tsx       # Redirect to /en
-│   └── [locale]/       # Localized routes
+│   ├── index.tsx       # Homepage
+│   └── [locale]/       # Localized routes (to be created)
 ├── components/
 │   ├── ui/             # shadcn/ui components (customized)
 │   ├── sections/       # Page sections (Hero, Vision, etc.)
@@ -69,11 +69,19 @@ app/
 │   ├── ar.json         # Arabic translations
 │   └── tr.json         # Turkish translations
 ├── styles/
-│   ├── globals.css     # Global styles + Tailwind
-│   └── fonts.css       # NeueHaasDisplay @font-face
-└── lib/
-    ├── utils.ts        # Utility functions
-    └── i18n.ts         # i18n helpers
+│   └── styles.css      # Global styles + Tailwind
+├── lib/
+│   ├── utils.ts        # Utility functions
+│   └── i18n.ts         # i18n helpers
+└── data/
+    └── constants.ts    # Constants (colors, links, etc.)
+
+public/
+├── fonts/              # NeueHaasDisplay font files (to be added)
+└── images/             # Logos, icons (to be added)
+
+migrations/
+└── 0001_create_contacts.sql  # D1 database schema
 ```
 
 ## Design System
@@ -153,14 +161,21 @@ return <h1>{t('hero.tagline')}</h1>;
 
 ### Wrangler Configuration
 ```toml
-# wrangler.toml structure
+# wrangler.toml structure (already configured)
+name = "sggweb"
+main = ".output/server/index.mjs"
+
 [env.production]
 name = "sggweb-production"
 route = "sggplay.com/*"
+# D1: sgg-db (1a91d742-44d7-44ac-b3a3-5a01042abbf9)
+# R2: sgg-assets
 
 [env.dev]
 name = "sggweb-dev"
 route = "dev.sggplay.com/*"
+# D1: sgg-db-dev (b67c454e-a94f-4965-b4f1-8c5296483091)
+# R2: sgg-assets-dev
 ```
 
 ### Deployment Process

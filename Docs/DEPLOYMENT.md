@@ -83,29 +83,33 @@ name = "sggweb-production"
 route = "sggplay.com/*"
 vars = { ENVIRONMENT = "production" }
 
+# Production D1 database
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "sgg-db"
+database_id = "1a91d742-44d7-44ac-b3a3-5a01042abbf9"
+
+# Production R2 bucket
+[[env.production.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "sgg-assets"
+
 # Development environment
 [env.dev]
 name = "sggweb-dev"
 route = "dev.sggplay.com/*"
 vars = { ENVIRONMENT = "development" }
 
-# R2 bucket for assets (when needed)
-[[r2_buckets]]
-binding = "ASSETS"
-bucket_name = "sgg-assets"
-preview_bucket_name = "sgg-assets-preview"
-
-# D1 database (when needed)
-[[d1_databases]]
-binding = "DB"
-database_name = "sgg-db"
-database_id = "your-production-db-id"
-
-# Dev database
-[env.dev.d1_databases]
+# Development D1 database
+[[env.dev.d1_databases]]
 binding = "DB"
 database_name = "sgg-db-dev"
-database_id = "your-dev-db-id"
+database_id = "b67c454e-a94f-4965-b4f1-8c5296483091"
+
+# Development R2 bucket
+[[env.dev.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "sgg-assets-dev"
 ```
 
 ## Cloudflare Dashboard Setup
