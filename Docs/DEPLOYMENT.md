@@ -48,8 +48,7 @@ git push origin main
 
 ```bash
 # Deploy to dev environment
-CLOUDFLARE_ENV=dev pnpm build
-pnpm wrangler deploy --env dev
+pnpm run deploy:dev
 
 # Deploy to production
 pnpm build
@@ -57,6 +56,7 @@ pnpm wrangler deploy --env production
 ```
 
 **Note**: Use `CLOUDFLARE_ENV=dev` for dev builds to ensure correct environment configuration.
+When deploying with the Cloudflare Vite plugin, run `wrangler deploy --env ""` (as in `deploy:dev`) to target the flattened top-level environment and avoid Wrangler warnings about multiple environments.
 
 ## Pre-Deployment Checklist
 

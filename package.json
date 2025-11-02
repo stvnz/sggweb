@@ -6,7 +6,8 @@
     "dev": "vite dev --port 3000",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "deploy:dev": "CLOUDFLARE_ENV=dev pnpm run build && pnpm wrangler deploy --env \"\""
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.9.2",
