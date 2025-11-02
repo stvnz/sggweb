@@ -43,10 +43,11 @@ pnpm preview
 
 ## Documentation
 
-- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Setup and development guidelines
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deployment procedures
-- **[DESIGN.md](./DESIGN.md)** - Design system and brand guidelines
-- **[TODO.md](./TODO.md)** - Project tasks and progress
+- **[AGENTS.md](./AGENTS.md)** - Contributor guidelines and repo conventions
+- **[DEVELOPMENT.md](./Docs/DEVELOPMENT.md)** - Setup and development guidelines
+- **[DEPLOYMENT.md](./Docs/DEPLOYMENT.md)** - Deployment procedures
+- **[DESIGN.md](./Docs/DESIGN.md)** - Design system and brand guidelines
+- **[TODO.md](./Docs/TODO.md)** - Project tasks and progress
 
 ## Brand Colors
 
@@ -73,7 +74,7 @@ sgg-website/
 │   ├── i18n/            # Translation files
 │   └── utils/           # Helper functions
 ├── public/              # Static assets
-├── docs/                # Documentation
+├── Docs/                # Documentation
 └── wrangler.toml        # Cloudflare config
 ```
 
