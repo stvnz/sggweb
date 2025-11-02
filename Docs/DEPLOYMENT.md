@@ -73,19 +73,19 @@ pnpm wrangler deploy --env production
 ### wrangler.toml Structure
 
 ```toml
-name = "sgg-website"
+name = "sggweb"
 main = ".output/server/index.mjs"
 compatibility_date = "2024-01-01"
 
 # Production environment
 [env.production]
-name = "sgg-website-production"
+name = "sggweb-production"
 route = "sggplay.com/*"
 vars = { ENVIRONMENT = "production" }
 
 # Development environment
 [env.dev]
-name = "sgg-website-dev"
+name = "sggweb-dev"
 route = "dev.sggplay.com/*"
 vars = { ENVIRONMENT = "development" }
 

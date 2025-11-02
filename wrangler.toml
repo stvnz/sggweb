@@ -1,0 +1,34 @@
+name = "sggweb"
+main = ".output/server/index.mjs"
+compatibility_date = "2024-01-01"
+
+# Production environment
+[env.production]
+name = "sggweb-production"
+route = "sggplay.com/*"
+vars = { ENVIRONMENT = "production" }
+
+# Development environment
+[env.dev]
+name = "sggweb-dev"
+route = "dev.sggplay.com/*"
+vars = { ENVIRONMENT = "development" }
+
+# R2 bucket for assets (when needed)
+# Uncomment when ready to use
+# [[r2_buckets]]
+# binding = "ASSETS"
+# bucket_name = "sgg-assets"
+# preview_bucket_name = "sgg-assets-preview"
+
+# D1 database (when needed)
+# Uncomment and update database IDs when ready to use
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "sgg-db"
+# database_id = "your-production-db-id"
+
+# [env.dev.d1_databases]
+# binding = "DB"
+# database_name = "sgg-db-dev"
+# database_id = "your-dev-db-id"

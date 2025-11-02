@@ -155,11 +155,11 @@ return <h1>{t('hero.tagline')}</h1>;
 ```toml
 # wrangler.toml structure
 [env.production]
-name = "sgg-website-production"
+name = "sggweb-production"
 route = "sggplay.com/*"
 
 [env.dev]
-name = "sgg-website-dev"
+name = "sggweb-dev"
 route = "dev.sggplay.com/*"
 ```
 

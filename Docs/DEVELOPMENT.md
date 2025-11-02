@@ -13,7 +13,7 @@
 
 ```bash
 git clone <repository-url>
-cd sgg-website
+cd sggweb
 pnpm install
 ```
 
